@@ -8,4 +8,4 @@ on different devices.
 
 Done for [CIS 552](https://www.cis.upenn.edu/~cis552/current/index.html) Fall 2019 at the University of Pennsylvania, which is the reason for this project being done in Haskell.
 
-Authors: Brandon Lin (esqu1), Erik Zhao (erikzh)
+Authors: Brandon Lin (esqu1), Erik Zhao (erikhz)
