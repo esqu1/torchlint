@@ -1,0 +1,27 @@
+graph(%self : ClassType<BadWhileDevice>):
+  %13 : bool = prim::Constant[value=0]()
+  %7 : None = prim::Constant()
+  %3 : int = prim::Constant[value=3]() # bad_while_device.py:6:30
+  %4 : int = prim::Constant[value=4]() # bad_while_device.py:6:32
+  %23 : int = prim::Constant[value=9223372036854775807]() # bad_while_device.py:9:8
+  %24 : int = prim::Constant[value=1]() # bad_while_device.py:9:14
+  %25 : int = prim::Constant[value=0]() # bad_while_device.py:9:18
+  %34 : int = prim::Constant[value=5]() # bad_while_device.py:11:41
+  %6 : int[] = prim::ListConstruct(%3, %4)
+  %11 : Tensor = aten::zeros(%6, %7, %7, %7, %7) # bad_while_device.py:6:18
+  %12 : Tensor = aten::cuda(%11) # bad_while_device.py:6:18
+  %tensor1.1 : Tensor = aten::_cast_Float(%12, %13) # bad_while_device.py:6:18
+  %16 : int[] = prim::ListConstruct(%3, %4)
+  %21 : Tensor = aten::zeros(%16, %7, %7, %7, %7) # bad_while_device.py:7:18
+  %tensor2.1 : Tensor = aten::cuda(%21) # bad_while_device.py:7:18
+  %51 : bool = aten::gt(%24, %25) # bad_while_device.py:9:14
+  %tensor2 : Tensor = prim::Loop(%23, %51, %tensor2.1) # bad_while_device.py:9:8
+    block0(%27 : int, %tensor2.6 : Tensor):
+      %tensor2.3 : Tensor = aten::add(%tensor1.1, %tensor2.6, %24) # bad_while_device.py:10:22
+      %26 : bool = aten::gt(%24, %25) # bad_while_device.py:9:14
+      -> (%26, %tensor2.3)
+  %36 : int[] = prim::ListConstruct(%4, %34)
+  %41 : Tensor = aten::ones(%36, %7, %7, %7, %7) # bad_while_device.py:11:28
+  %tensor4.1 : Tensor = aten::add(%tensor2, %41, %24) # bad_while_device.py:11:18
+  return (%tensor4.1)
+

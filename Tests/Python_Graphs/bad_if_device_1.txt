@@ -1,0 +1,24 @@
+graph(%self : ClassType<BadIfDevice1>):
+  %27 : int = prim::Constant[value=1]()
+  %7 : None = prim::Constant()
+  %3 : int = prim::Constant[value=3]() # bad_if_device_1.py:6:30
+  %4 : int = prim::Constant[value=4]() # bad_if_device_1.py:6:32
+  %22 : int = prim::Constant[value=0]() # bad_if_device_1.py:9:21
+  %6 : int[] = prim::ListConstruct(%3, %4)
+  %11 : Tensor = aten::zeros(%6, %7, %7, %7, %7) # bad_if_device_1.py:6:18
+  %tensor1.1 : Tensor = aten::cuda(%11) # bad_if_device_1.py:6:18
+  %14 : int[] = prim::ListConstruct(%3, %4)
+  %19 : Tensor = aten::zeros(%14, %7, %7, %7, %7) # bad_if_device_1.py:7:18
+  %tensor2.1 : Tensor = aten::cuda(%19) # bad_if_device_1.py:7:18
+  %23 : Tensor = aten::gt(%tensor1.1, %22) # bad_if_device_1.py:9:11
+  %24 : bool = aten::Bool(%23) # bad_if_device_1.py:9:11
+  %tensor3 : Tensor = prim::If(%24) # bad_if_device_1.py:9:8
+    block0():
+      %tensor3.1 : Tensor = aten::add(%tensor1.1, %tensor2.1, %27) # bad_if_device_1.py:10:22
+      -> (%tensor3.1)
+    block1():
+      %30 : int[] = prim::ListConstruct(%3, %4)
+      %tensor3.2 : Tensor = aten::ones(%30, %7, %7, %7, %7) # bad_if_device_1.py:12:22
+      -> (%tensor3.2)
+  return (%tensor3)
+

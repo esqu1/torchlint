@@ -1,0 +1,25 @@
+graph(%self : ClassType<BadIf2Test>):
+  %5 : None = prim::Constant()
+  %1 : int = prim::Constant[value=3]() # bad_if_2.py:6:19
+  %2 : int = prim::Constant[value=1]() # bad_if_2.py:6:21
+  %18 : int = prim::Constant[value=5]() # bad_if_2.py:8:20
+  %27 : int = prim::Constant[value=0]() # bad_if_2.py:9:12
+  %4 : int[] = prim::ListConstruct(%1, %2)
+  %x.1 : Tensor = aten::ones(%4, %5, %5, %5, %5) # bad_if_2.py:6:8
+  %11 : int[] = prim::ListConstruct(%1, %2)
+  %16 : Tensor = aten::ones(%11, %5, %5, %5, %5) # bad_if_2.py:7:10
+  %y.1 : Tensor = aten::mul(%16, %1) # <string>:3:9
+  %20 : int[] = prim::ListConstruct(%18, %2)
+  %z.1 : Tensor = aten::zeros(%20, %5, %5, %5, %5) # bad_if_2.py:8:8
+  %28 : Tensor = aten::gt(%x.1, %27) # bad_if_2.py:9:8
+  %29 : Tensor = aten::all(%28) # bad_if_2.py:9:8
+  %30 : bool = aten::Bool(%29) # bad_if_2.py:9:8
+  %k : Tensor = prim::If(%30) # bad_if_2.py:9:4
+    block0():
+      %k.1 : Tensor = aten::add(%x.1, %y.1, %2) # bad_if_2.py:10:10
+      -> (%k.1)
+    block1():
+      %k.2 : Tensor = aten::add(%x.1, %z.1, %2) # bad_if_2.py:12:10
+      -> (%k.2)
+  return (%k)
+

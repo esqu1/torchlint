@@ -1,0 +1,27 @@
+graph(%self : ClassType<IfWithFor>,
+      %len.1 : int):
+  %28 : int = prim::Constant[value=1]()
+  %14 : bool = prim::Constant[value=1]() # if_with_for.py:7:8
+  %6 : None = prim::Constant()
+  %2 : int = prim::Constant[value=3]() # if_with_for.py:6:25
+  %3 : int = prim::Constant[value=4]() # if_with_for.py:6:28
+  %17 : int = prim::Constant[value=10]() # if_with_for.py:8:19
+  %20 : int = prim::Constant[value=5]() # if_with_for.py:9:42
+  %32 : float = prim::Constant[value=1]() # if_with_for.py:11:26
+  %5 : int[] = prim::ListConstruct(%2, %3)
+  %rv.1 : Tensor = aten::zeros(%5, %6, %6, %6, %6) # if_with_for.py:6:13
+  %rv : Tensor = prim::Loop(%len.1, %14, %rv.1) # if_with_for.py:7:8
+    block0(%i.1 : int, %rv.14 : Tensor):
+      %18 : bool = aten::lt(%i.1, %17) # if_with_for.py:8:15
+      %rv.13 : Tensor = prim::If(%18) # if_with_for.py:8:12
+        block0():
+          %22 : int[] = prim::ListConstruct(%2, %3, %20)
+          %27 : Tensor = aten::zeros(%22, %6, %6, %6, %6) # if_with_for.py:9:26
+          %rv.3 : Tensor = aten::sub(%rv.14, %27, %28) # if_with_for.py:9:21
+          -> (%rv.3)
+        block1():
+          %rv.6 : Tensor = aten::add(%rv.14, %32, %28) # if_with_for.py:11:21
+          -> (%rv.6)
+      -> (%14, %rv.13)
+  return (%rv)
+

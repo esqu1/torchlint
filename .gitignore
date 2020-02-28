@@ -1,0 +1,11 @@
+*~
+Tests/__pycache__/*
+.mypy_cache/*
+*.hi
+*.o
+__pycache__/*
+dist-newstyle/*
+.stack-work/*
+dist/*
+target/*
+Main

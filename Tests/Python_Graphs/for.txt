@@ -1,0 +1,14 @@
+graph(%self : ClassType<ForTest>):
+  %13 : bool = prim::Constant[value=1]() # for.py:7:8
+  %5 : None = prim::Constant()
+  %1 : int = prim::Constant[value=3]() # for.py:6:24
+  %2 : int = prim::Constant[value=1]() # for.py:6:26
+  %10 : int = prim::Constant[value=10]() # for.py:7:23
+  %4 : int[] = prim::ListConstruct(%1, %2)
+  %x.1 : Tensor = aten::zeros(%4, %5, %5, %5, %5) # for.py:6:12
+  %x : Tensor = prim::Loop(%10, %13, %x.1) # for.py:7:8
+    block0(%t : int, %x.6 : Tensor):
+      %x.3 : Tensor = aten::add(%x.6, %2, %2) # for.py:8:16
+      -> (%13, %x.3)
+  return (%x)
+

@@ -1,0 +1,31 @@
+graph(%self : ClassType<BadDeviceMult>):
+  %13 : bool = prim::Constant[value=0]()
+  %7 : None = prim::Constant()
+  %3 : int = prim::Constant[value=3]() # bad_device_mult.py:6:30
+  %4 : int = prim::Constant[value=4]() # bad_device_mult.py:6:32
+  %37 : int = prim::Constant[value=1]() # bad_device_mult.py:10:11
+  %38 : int = prim::Constant[value=0]() # bad_device_mult.py:10:15
+  %6 : int[] = prim::ListConstruct(%3, %4)
+  %11 : Tensor = aten::zeros(%6, %7, %7, %7, %7) # bad_device_mult.py:6:18
+  %12 : Tensor = aten::cuda(%11) # bad_device_mult.py:6:18
+  %tensor1.1 : Tensor = aten::_cast_Float(%12, %13) # bad_device_mult.py:6:18
+  %16 : int[] = prim::ListConstruct(%3, %4)
+  %tensor2.1 : Tensor = aten::zeros(%16, %7, %7, %7, %7) # bad_device_mult.py:7:18
+  %23 : int[] = prim::ListConstruct(%3, %4)
+  %28 : Tensor = aten::zeros(%23, %7, %7, %7, %7) # bad_device_mult.py:8:18
+  %tensor3.1 : Tensor = aten::cuda(%28) # bad_device_mult.py:8:18
+  %31 : int[] = prim::ListConstruct(%3, %4)
+  %tensor4.1 : Tensor = aten::zeros(%31, %7, %7, %7, %7) # bad_device_mult.py:9:18
+  %39 : bool = aten::gt(%37, %38) # bad_device_mult.py:10:11
+  %tensor3 : Tensor, %tensor4 : Tensor = prim::If(%39) # bad_device_mult.py:10:8
+    block0():
+      %42 : int[] = prim::ListConstruct(%3, %4)
+      %47 : Tensor = aten::zeros(%42, %7, %7, %7, %7) # bad_device_mult.py:11:32
+      %48 : Tensor = aten::cuda(%47) # bad_device_mult.py:11:32
+      %tensor3.2 : Tensor = aten::add(%tensor1.1, %48, %37) # bad_device_mult.py:11:22
+      -> (%tensor3.2, %tensor2.1)
+    block1():
+      -> (%tensor3.1, %tensor4.1)
+  %63 : Tensor = aten::add(%tensor3, %tensor4, %37) # bad_device_mult.py:13:15
+  return (%63)
+

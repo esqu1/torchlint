@@ -1,0 +1,13 @@
+graph(%self : ClassType<BadDevice2Test>):
+  %5 : None = prim::Constant()
+  %1 : int = prim::Constant[value=3]() # bad_device_2.py:6:20
+  %2 : int = prim::Constant[value=1]() # bad_device_2.py:6:22
+  %4 : int[] = prim::ListConstruct(%1, %2)
+  %9 : Tensor = aten::zeros(%4, %5, %5, %5, %5) # bad_device_2.py:6:8
+  %x.1 : Tensor = aten::cpu(%9) # bad_device_2.py:6:8
+  %12 : int[] = prim::ListConstruct(%1, %2)
+  %17 : Tensor = aten::zeros(%12, %5, %5, %5, %5) # bad_device_2.py:7:8
+  %y.1 : Tensor = aten::cuda(%17) # bad_device_2.py:7:8
+  %22 : Tensor = aten::add(%x.1, %y.1, %2) # bad_device_2.py:8:11
+  return (%22)
+

@@ -1,0 +1,9 @@
+graph(%self : ClassType<BasicTest>):
+  %5 : None = prim::Constant()
+  %1 : int = prim::Constant[value=3]() # basic_test.py:6:19
+  %2 : int = prim::Constant[value=1]() # basic_test.py:6:21
+  %4 : int[] = prim::ListConstruct(%1, %2)
+  %9 : Tensor = aten::ones(%4, %5, %5, %5, %5) # basic_test.py:6:8
+  %x.1 : Tensor = aten::cuda(%9) # basic_test.py:6:8
+  return (%x.1)
+

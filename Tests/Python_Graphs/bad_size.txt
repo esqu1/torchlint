@@ -1,0 +1,14 @@
+graph(%self : ClassType<BadSize>):
+  %21 : int = prim::Constant[value=1]()
+  %5 : None = prim::Constant()
+  %1 : int = prim::Constant[value=5]() # bad_size.py:5:30
+  %2 : int = prim::Constant[value=2]() # bad_size.py:5:32
+  %10 : int = prim::Constant[value=3]() # bad_size.py:6:30
+  %11 : int = prim::Constant[value=7]() # bad_size.py:6:32
+  %4 : int[] = prim::ListConstruct(%1, %2)
+  %tensor1.1 : Tensor = aten::zeros(%4, %5, %5, %5, %5) # bad_size.py:5:18
+  %13 : int[] = prim::ListConstruct(%10, %11)
+  %tensor2.1 : Tensor = aten::zeros(%13, %5, %5, %5, %5) # bad_size.py:6:18
+  %22 : Tensor = aten::add(%tensor1.1, %tensor2.1, %21) # bad_size.py:7:15
+  return (%22)
+
